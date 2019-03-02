@@ -1,0 +1,21 @@
+{
+  "name": "forestry-data-collection",
+  "version": "0.0.0",
+  "description": "No description",
+  "author": null,
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "dependencies": {
+    "expo": "^31.0.0",
+    "prop-types": "15.6.2",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+    "react-native-button": "2.3.0",
+    "react-native-paper": "2.1.3",
+    "react-native-router-flux": "4.0.6",
+    "react-native-vector-icons": "6.1.0",
+    "react-navigation": "3.0.0",
+    "react-navigation-deprecated-tab-navigator": "*",
+    "whatwg-fetch": "^3.0.0"
+  }
+}
