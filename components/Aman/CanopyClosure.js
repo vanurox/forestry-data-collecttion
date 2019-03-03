@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground } from "react-native";
+import { View, Text,TextInput, StyleSheet, ImageBackground,AsyncStorage,Alert } from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -7,9 +7,35 @@ import styles from "./Styles";
 
 
 export default class CanopyClosure extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      canopy_closure:'',
+      soil_rock:'',
+      moss_lichen:'',
+      ground_grass:'',
+      cover_forb:'',
+      shrub:''
+    }
+  }
   static navigationOptions = {
     header: null
   };
+  saveData=async()=>{
+    try{
+      await AsyncStorage.setItem('canopy_closure',this.state.canopy_closure)
+      await AsyncStorage.setItem('soil_rock',this.state.soil_rock)
+      await AsyncStorage.setItem('moss_lichen',this.state.moss_lichen)
+      await AsyncStorage.setItem('ground_grass',this.state.ground_grass)
+      await AsyncStorage.setItem('cover_forb',this.state.cover_forb)
+      await AsyncStorage.setItem('shrub',this.state.shrub)
+      this.props.navigation.navigate('Organic');
+    }
+    catch(err)
+    {
+      console.log("Not saved");
+    }
+  }
   render() {
     return (
 
@@ -49,115 +75,40 @@ export default class CanopyClosure extends Component {
          <TextInput
                 style={styles.inputAgsStyleCanopy}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(canopy_closure) => this.setState({canopy_closure})}
               />
               <TextInput
                 style={styles.inputAgsStyleCanopy}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(soil_rock) => this.setState({soil_rock})}
               />
               <TextInput
                 style={styles.inputAgsStyleCanopy}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(moss_lichen) => this.setState({moss_lichen})}
               />
               <TextInput
                 style={styles.inputAgsStyleCanopy}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(ground_grass) => this.setState({ground_grass})}
               />
               <TextInput
                 style={styles.inputAgsStyleCanopy}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(cover_forb) => this.setState({cover_forb})}
               />
               <TextInput
                 style={styles.inputAgsStyleCanopy}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(shrub) => this.setState({shrub})}
               />
                
               
         </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle2}>
-           2
-         </Text>
-         <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              
-        </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle2}>
-            3
-         </Text>
-         <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleCanopy}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              
-        </View>
-       
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
-            onPress={() => this.props.navigation.navigate("Organic")}
+            onPress={() => {this.saveData()}}
           >
             Done
           </Button>

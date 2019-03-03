@@ -362,7 +362,7 @@ inputAgsStyle:{
 padding:10,
   backgroundColor:"blue",
   top: 1,
-  height:30,
+  height:34,
   width:60,
   color:'#ffffff',
   marginRight:5,

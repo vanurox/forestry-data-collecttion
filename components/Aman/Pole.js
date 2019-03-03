@@ -9,27 +9,27 @@ export default class Pole extends Component {
     super();
     this.state = {
       agsValue: 0,
-      ugsValue:0
+      ugsValue:0,
+     
+
     }
   }
   static navigationOptions = {
     header: null
   };
+ 
   state = { user: '' }
   updateUser = (user) => {
     this.setState({ user: user })
   }
-  storeName=async()=>{
-    try {
-      await AsyncStorage.setItem('agsValue', this.state.agsValue,()=>{console.log("value saved in async")});
-    } catch (error) {
-      Alert('Error while saving the cruise name')
-    }
-  }
   nextScreen=()=>{
-    this.storeName();
-    // this.props.navigation.navigate('SpeciesPole');
+     AsyncStorage.setItem('pole_ugs', this.state.ugsValue.toString());
+     AsyncStorage.setItem('pole_ags', this.state.agsValue.toString());
+    this.props.navigation.navigate('SpeciesPole',{
+      screenName:'Pole'
+    });
   }
+  
   increaseagsCount = () => {
     let agsval = this.state.agsValue;
     this.setState({

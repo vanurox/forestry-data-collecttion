@@ -1,14 +1,97 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground } from "react-native";
+import { View, Text,TextInput, StyleSheet, ImageBackground,Alert,AsyncStorage } from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from "./Styles";
 
 export default class AdditionalVegetationNotes extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      additional_vegetation_notes:''
+    }
+  }
   static navigationOptions = {
     header: null
   };
+  savePlotData=async()=>{
+    try
+    {
+      var cruise_id = await AsyncStorage.getItem('cruise_id');
+      var species = await AsyncStorage.getItem('species');
+      var ht = await AsyncStorage.getItem('ht');
+      var dbh = await AsyncStorage.getItem('dbh');
+      var canopy_closure = await AsyncStorage.getItem('canopy_closure');
+      var soil_rock = await AsyncStorage.getItem('soil_rock');
+      var moss_lichen = await AsyncStorage.getItem('moss_lichen');
+      var ground_grass = await AsyncStorage.getItem('ground_grass');
+      var cover_forb = await AsyncStorage.getItem('cover_forb');
+      var shrub = await AsyncStorage.getItem('shrub');
+      var organic = await AsyncStorage.getItem('organic');
+      var sand = await AsyncStorage.getItem('sand');
+      var silt = await AsyncStorage.getItem('silt');
+      var clay = await AsyncStorage.getItem('clay');
+      var gravels = await AsyncStorage.getItem('gravels');
+      var cobbles = await AsyncStorage.getItem('cobbles');
+      var additional_vegetation_notes =this.state.additional_vegetation_notes ;
+      console.log(cruise_id)
+      console.log(species)
+      console.log(ht)
+      console.log(dbh)
+      console.log(canopy_closure)
+      console.log(soil_rock)
+      console.log(moss_lichen)
+      console.log(ground_grass)
+      console.log(cover_forb)
+      console.log(shrub)
+      console.log(organic)
+      console.log(sand)
+      console.log(silt)
+      console.log(clay)
+      console.log(gravels)
+      console.log(cobbles)
+      console.log(additional_vegetation_notes)
+      var data = new FormData();
+      data.append('cruise_id', cruise_id.toString());
+      data.append('species', species.toString());
+      data.append('ht', ht);
+      data.append('dbh', dbh.toString());
+      data.append('canopy_closure', canopy_closure.toString());
+      data.append('soil_rock', soil_rock.toString())
+      data.append('moss_lichen', moss_lichen.toString())
+      data.append('ground_grass', ground_grass.toString())
+      data.append('cover_forb', cover_forb.toString())
+      data.append('shrub', shrub.toString())
+      data.append('organic', "abc")
+      data.append('sand', sand.toString())
+      data.append('silt', silt.toString())
+      data.append('clay', clay.toString())
+      data.append('gravels', gravels.toString())
+      data.append('cobbles', cobbles.toString())
+      data.append('additional_vegetation_notes', this.state.additional_vegetation_notes.toString())
+      fetch('http://192.168.1.34/forestry/api/index.php/', {
+        method: 'POST',
+        body: data
+      })
+        .then((response) => {
+          return response.json()
+        })
+        .then((res) => {
+          console.log(res);
+          this.props.navigation.navigate("FlemingSENRS");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
+
+    }
+    catch(err)
+    {
+      console.log(err);
+    }
+  }
   render() {
     return (
 
@@ -34,42 +117,16 @@ export default class AdditionalVegetationNotes extends Component {
          <TextInput
                 style={styles.inputaddsStyle}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(additional_vegetation_notes) => this.setState({additional_vegetation_notes})}
               />
              
                
               
         </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyleNum}>
-           2
-         </Text>
-         <TextInput
-                style={styles.inputaddsStyle}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              
-        </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyleNum}>
-            3
-         </Text>
-         <TextInput
-                style={styles.inputaddsStyle}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-          
-          
-              
-        </View>
-     
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
-            onPress={() => this.props.navigation.navigate("FlemingSENRS")}
+            onPress={() => {this.savePlotData()}}
           >
             Done
           </Button>

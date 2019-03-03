@@ -41,7 +41,9 @@ export default class Sweep extends Component {
           <Button
             containerStyle={styles.buttonStyle}
             style={styles.buttonStyleText}
-            onPress={() => this.props.navigation.navigate("SpeciesPole")}
+            onPress={() => this.props.navigation.navigate("SpeciesPole",{
+              screenName:''
+            })}
           >
             Sweep
           </Button>

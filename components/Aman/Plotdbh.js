@@ -1,14 +1,34 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground } from "react-native";
+import { View, Text,TextInput, StyleSheet, ImageBackground,AsyncStorage,Alert } from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from "./Styles";
 
 export default class Plotdbh extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      species:'',
+      ht:0,
+      dbh:''
+    }
+  }
   static navigationOptions = {
     header: null
   };
+  nextScreen=async()=>{
+    try{
+      await AsyncStorage.setItem('species',this.state.species)
+      await AsyncStorage.setItem('ht',this.state.ht)
+      await AsyncStorage.setItem('dbh',this.state.dbh)
+      this.props.navigation.navigate('CanopyClosure');
+    }
+    catch(err)
+    {
+
+    }
+  }
   render() {
     return (
 
@@ -39,71 +59,30 @@ export default class Plotdbh extends Component {
              <TextInput
                 style={styles.inputSpeciesStyle1}
                 placeholder="1"
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(species) => this.setState({species})}
               />
               <TextInput
                 style={styles.inputSpeciesStyle}
                 placeholder="2"
-                onChangeText={(text) => this.setState({text})}
+                keyboardType="numeric"
+                onChangeText={(ht) => this.setState({ht})}
               />
               <TextInput
                 style={styles.inputSpeciesStyle}
                 placeholder="3"
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(dbh) => this.setState({dbh})}
               />
                
               
         </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle2}>
-           2
-         </Text>
-             <TextInput
-                style={styles.inputSpeciesStyle1}
-                placeholder="1"
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputSpeciesStyle}
-                placeholder="2"
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputSpeciesStyle}
-                placeholder="3"
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              
-              
-        </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle2}>
-            3
-         </Text>
-             <TextInput
-                style={styles.inputSpeciesStyle1}
-                placeholder="1"
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputSpeciesStyle}
-                placeholder="2"
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputSpeciesStyle}
-                placeholder="3"
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              </View>
+       
+    
 
         
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
-            onPress={() => this.props.navigation.navigate("CanopyClosure")}
+            onPress={() => {this.nextScreen()}}
           >
             Done
           </Button>

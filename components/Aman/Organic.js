@@ -1,11 +1,39 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground } from "react-native";
+import { View, Text,TextInput, StyleSheet, ImageBackground ,AsyncStorage,Alert} from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from "./Styles";
 
 export default class Organic extends Component {
+  constructor(props){
+    super(props);
+      this.state={
+        organic:'',
+        sand:'',
+        silt:'',
+        clay:'',
+        gravels:'',
+        cobbles:''
+      }
+    
+  }
+  saveData=async()=>{
+    try{
+      await AsyncStorage.setItem('organic',this.state.organic)
+      console.log(this.state.organic);
+      await AsyncStorage.setItem('sand',this.state.sand)
+      await AsyncStorage.setItem('silt',this.state.silt)
+      await AsyncStorage.setItem('clay',this.state.clay)
+      await AsyncStorage.setItem('gravels',this.state.gravels)
+      await AsyncStorage.setItem('cobbles',this.state.cobbles)
+      this.props.navigation.navigate('AdditionalVegetationNotes');
+    }
+    catch(err)
+    {
+      console.log("Not saved");
+    }
+  }
   static navigationOptions = {
     header: null
   };
@@ -48,115 +76,41 @@ export default class Organic extends Component {
          <TextInput
                 style={styles.inputAgsStyleOrganic}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(organic) => this.setState({organic})}
               />
               <TextInput
                 style={styles.inputAgsStyleOrganic}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(sand) => this.setState({sand})}
               />
               <TextInput
                 style={styles.inputAgsStyleOrganic}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(silt) => this.setState({silt})}
               />
               <TextInput
                 style={styles.inputAgsStyleOrganic}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(clay) => this.setState({clay})}
               />
               <TextInput
                 style={styles.inputAgsStyleOrganic}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(gravels) => this.setState({gravels})}
               />
               <TextInput
                 style={styles.inputAgsStyleOrganic}
                 placeholder=""
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(cobbles) => this.setState({cobbles})}
               />
                
               
         </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle2}>
-           2
-         </Text>
-         <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              
-        </View>
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle2}>
-            3
-         </Text>
-         <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              <TextInput
-                style={styles.inputAgsStyleOrganic}
-                placeholder=""
-                onChangeText={(text) => this.setState({text})}
-              />
-              
-              
-        </View>
-        
+                
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
-            onPress={() => this.props.navigation.navigate("AdditionalVegetationNotes")}
+            onPress={() => {this.saveData()}}
           >
             Done
           </Button>

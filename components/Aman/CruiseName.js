@@ -17,9 +17,11 @@ export default class CruiseName extends Component {
   static navigationOptions = {
     header: null
   };
-  _storeName=async()=>{
+  _storeName=async(id)=>{
     try {
-      await AsyncStorage.setItem('cruise_name', this.state.cruiseName,()=>{console.log("value saved in async")});
+      let cruise_id=id.toString();
+      await AsyncStorage.setItem('cruise_id', cruise_id);
+      await AsyncStorage.setItem('cruise_name', this.state.cruiseName);
     } catch (error) {
       Alert('Error while saving the cruise name')
     }
@@ -30,7 +32,7 @@ export default class CruiseName extends Component {
     let res = Helper('/','POST',data);
     res.then((res)=>{
       if(res.msg==1){
-        this._storeName();
+        this._storeName(res.cruise_id);
         this.props.navigation.navigate("CruiseType");
       }
     })
