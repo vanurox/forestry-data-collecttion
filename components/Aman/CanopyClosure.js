@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground,AsyncStorage,Alert } from "react-native";
+import { View, Text,TextInput, StyleSheet, ImageBackground,AsyncStorage,Alert, ScrollView } from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -44,7 +44,9 @@ export default class CanopyClosure extends Component {
           source={require("./bg.jpg")}
           style={styles.backgroundImage}
         >
-        <View style={styles.rowSpeciesStyle}>
+        <ScrollView horizontal={true}>
+          <View>
+          <View style={styles.rowSpeciesStyle}>
         <Text style = {styles.textSpeciesStyle}>
             Plot
          </Text>
@@ -105,6 +107,8 @@ export default class CanopyClosure extends Component {
                
               
         </View>
+          </View>
+        </ScrollView>
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
