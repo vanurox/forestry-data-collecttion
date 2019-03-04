@@ -19,6 +19,7 @@ import Plotdbh from "./components/Aman/Plotdbh";
 import CanopyClosure from "./components/Aman/CanopyClosure";
 import Organic from "./components/Aman/Organic";
 import AdditionalVegetationNotes from "./components/Aman/AdditionalVegetationNotes";
+import RenameCruise from './components/Aman/RenameCruise';
 
 
 export default class App extends React.Component {
@@ -47,6 +48,7 @@ const AppStackNavigator = createStackNavigator({
   CanopyClosure:CanopyClosure,
   Organic:Organic,
   AdditionalVegetationNotes:AdditionalVegetationNotes,
+  RenameCruise:RenameCruise
 });
 const AppContainer = createAppContainer(AppStackNavigator);
 const styles = StyleSheet.create({
