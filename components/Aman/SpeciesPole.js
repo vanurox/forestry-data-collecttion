@@ -4,7 +4,8 @@ import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackActions, NavigationActions } from 'react-navigation'
 import styles from "./Styles";
-import Helper from '../Helper/Helper'
+import BaseUrl from "../../helpers/BaseUrl";
+
 export default class SpeciesPole extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +50,7 @@ export default class SpeciesPole extends Component {
       data.append('medium_ugs', medium_ugs.toString())
       data.append('large_sawlog_ugs', large_sawlog_ugs.toString())
       data.append('large_sawlog_ags', large_sawlog_ags.toString())
-      fetch('http://192.168.1.34/forestry/api/index.php/', {
+      fetch( BaseUrl, {
         method: 'POST',
         body: data
       })

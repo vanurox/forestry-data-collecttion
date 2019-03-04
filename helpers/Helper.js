@@ -1,9 +1,8 @@
-import 'whatwg-fetch';
-const baseUrl = 'http://192.168.1.34/forestry/api/index.php';
-const Helper = (url, method, body) => {
+import BaseUrl from './BaseUrl';
+const Helper = ( method, body) => {
     if (body !== undefined) {
         return (
-            fetch(baseUrl + url, {
+            fetch(BaseUrl, {
                 method: method,
                 body: body
             })
@@ -17,7 +16,7 @@ const Helper = (url, method, body) => {
     }
     else {
         return (
-            fetch(baseUrl + url, {
+            fetch(BaseUrl, {
                 method: method,
             })
                 .then((response) => {

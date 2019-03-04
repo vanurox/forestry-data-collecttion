@@ -38,7 +38,7 @@ export default class BasalAreaFactor extends Component {
     var data = new FormData();
     data.append('cruise_name',this.state.cruise_name);
     data.append('basal_area_factor',this.state.user);
-    let res = Helper('/','POST',data);
+    let res = Helper('POST',data);
     res.then((res)=>{
       if(res.msg==1){
         this.props.navigation.navigate("Sweep",{
