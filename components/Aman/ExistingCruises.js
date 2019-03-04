@@ -29,7 +29,18 @@ export default class ExistingCruises extends Component {
       })
     })
   }
-  
+  delete=()=>{
+    Alert.alert(
+      "Delete!!",
+      'Are you sure to delete cruise name?',
+      [
+        {text:'No',onPress:()=>{},style:'cancel'},
+        {
+          text:'Yes',onPress:()=>{}
+        }
+      ]
+    )
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -61,7 +72,7 @@ export default class ExistingCruises extends Component {
           <Button
             containerStyle={styles.buttonStyle}
             style={styles.buttonStyleText}
-            onPress={() => this.props.navigation.navigate("Cruise")}
+            onPress={() => {this.delete()}}
           >
             Delete
           </Button>
