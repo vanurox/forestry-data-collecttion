@@ -4,6 +4,7 @@ import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from "./Styles";
+import BaseUrl from "../../helpers/BaseUrl";
 
 export default class AdditionalVegetationNotes extends Component {
   constructor(props){
@@ -70,7 +71,7 @@ export default class AdditionalVegetationNotes extends Component {
       data.append('gravels', gravels.toString())
       data.append('cobbles', cobbles.toString())
       data.append('additional_vegetation_notes', this.state.additional_vegetation_notes.toString())
-      fetch('http://192.168.1.34/forestry/api/index.php/', {
+      fetch( BaseUrl, {
         method: 'POST',
         body: data
       })

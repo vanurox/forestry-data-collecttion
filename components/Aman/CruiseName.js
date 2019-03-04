@@ -6,6 +6,7 @@ import Helper from '../../helpers/Helper'
 import 'whatwg-fetch';
 
 import styles from "./Styles";
+import BaseUrl from "../../helpers/BaseUrl";
 
 export default class CruiseName extends Component {
   constructor(){
@@ -27,14 +28,29 @@ export default class CruiseName extends Component {
     }
   }
   addName=()=>{
-    var data = new FormData()
-    data.append('cruise_name', this.state.cruiseName)
-    let res = Helper('/','POST',data);
-    res.then((res)=>{
+      console.log("inside addname");
+      var data = new FormData();
+    data.append('cruise_name', this.state.cruiseName);
+    // let res = Helper('POST',data);
+    fetch(BaseUrl, {
+      method:'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body: data
+    })
+    .then((res)=>{
+      return res.json();
+    })
+    .then((res)=>{
+      console.log(res);
       if(res.msg==1){
         this._storeName(res.cruise_id);
         this.props.navigation.navigate("CruiseType");
       }
+    })
+    .catch((err)=>{
+      console.log(`Error while inserting cruise name ${err}`);
     })
   }
   nextScreenAndAddName=()=>{

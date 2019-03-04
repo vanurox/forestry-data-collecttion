@@ -22,8 +22,9 @@ export default class ExistingCruises extends Component {
      this.setState({ user: user })
   }
   getCruiseList=()=>{
-    let res = Helper('/', 'GET');
+    let res = Helper( 'GET');
     res.then((res)=>{
+      console.log(res);
       this.setState({
         cruiseList:res
       })
