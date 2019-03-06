@@ -36,23 +36,6 @@ export default class AdditionalVegetationNotes extends Component {
       var gravels = await AsyncStorage.getItem('gravels');
       var cobbles = await AsyncStorage.getItem('cobbles');
       var additional_vegetation_notes =this.state.additional_vegetation_notes ;
-      console.log(cruise_id)
-      console.log(species)
-      console.log(ht)
-      console.log(dbh)
-      console.log(canopy_closure)
-      console.log(soil_rock)
-      console.log(moss_lichen)
-      console.log(ground_grass)
-      console.log(cover_forb)
-      console.log(shrub)
-      console.log(organic)
-      console.log(sand)
-      console.log(silt)
-      console.log(clay)
-      console.log(gravels)
-      console.log(cobbles)
-      console.log(additional_vegetation_notes)
       var data = new FormData();
       data.append('cruise_id', cruise_id.toString());
       data.append('species', species.toString());
@@ -79,8 +62,19 @@ export default class AdditionalVegetationNotes extends Component {
           return response.json()
         })
         .then((res) => {
-          console.log(res);
-          this.props.navigation.navigate("FlemingSENRS");
+          Alert.alert(
+            'Add plot or not',
+          'Do you want to add more plot',
+          [
+            { text: 'no', onPress: () => { this.props.navigation.navigate('FlemingSENRS'),this._storeName() }, style: 'cancel' },
+            {
+              text: 'Yes', onPress: () => {
+                this.props.navigation.navigate('Plotdbh'),this._storeName()
+              }
+            },
+          ],
+          { cancelable: false }
+        )
         })
         .catch((err) => {
           console.log(err);
