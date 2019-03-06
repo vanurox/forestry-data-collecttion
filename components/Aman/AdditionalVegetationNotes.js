@@ -9,6 +9,7 @@ import BaseUrl from "../../helpers/BaseUrl";
 export default class AdditionalVegetationNotes extends Component {
   constructor(props){
     super(props);
+    console.log(this.props)
     this.state={
       additional_vegetation_notes:''
     }
@@ -36,6 +37,9 @@ export default class AdditionalVegetationNotes extends Component {
       var gravels = await AsyncStorage.getItem('gravels');
       var cobbles = await AsyncStorage.getItem('cobbles');
       var additional_vegetation_notes =this.state.additional_vegetation_notes ;
+
+      console.log(cruise_id,species,ht,dbh,canopy_closure,soil_rock,moss_lichen,ground_grass,cover_forb,shrub,organic,sand,silt,clay,gravels,cobbles,additional_vegetation_notes)
+
       var data = new FormData();
       data.append('cruise_id', cruise_id.toString());
       data.append('species', species.toString());
@@ -45,9 +49,9 @@ export default class AdditionalVegetationNotes extends Component {
       data.append('soil_rock', soil_rock.toString())
       data.append('moss_lichen', moss_lichen.toString())
       data.append('ground_grass', ground_grass.toString())
-      data.append('cover_forb', cover_forb.toString())
+      data.append('cover_forb', cover_forb)
       data.append('shrub', shrub.toString())
-      data.append('organic', "abc")
+      data.append('organic', organic.toString())
       data.append('sand', sand.toString())
       data.append('silt', silt.toString())
       data.append('clay', clay.toString())
@@ -62,14 +66,15 @@ export default class AdditionalVegetationNotes extends Component {
           return response.json()
         })
         .then((res) => {
+          console.log(res)
           Alert.alert(
             'Add plot or not',
           'Do you want to add more plot',
           [
-            { text: 'no', onPress: () => { this.props.navigation.navigate('FlemingSENRS'),this._storeName() }, style: 'cancel' },
+            { text: 'no', onPress: () => { this.props.navigation.navigate('FlemingSENRS') }, style: 'cancel' },
             {
               text: 'Yes', onPress: () => {
-                this.props.navigation.navigate('Plotdbh'),this._storeName()
+                this.props.navigation.navigate('Plotdbh')
               }
             },
           ],
@@ -84,7 +89,7 @@ export default class AdditionalVegetationNotes extends Component {
     }
     catch(err)
     {
-      console.log(err);
+      console.log("error while saving to async",err);
     }
   }
   render() {

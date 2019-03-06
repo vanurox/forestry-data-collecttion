@@ -70,7 +70,7 @@ export default class Pole extends Component {
           style={poleStyles.backImage}
         >
           <View style={{ width: "100%",  height: 30, justifyContent: 'flex-start', marginTop: 40,backgroundColor:'rgba(0,0,0,0.5)' }}>
-            <Text style={{ alignSelf: 'center', color: "#fff", fontSize: 25, fontWeight: 'bold' }}>Pole</Text>
+            <Text style={{ alignSelf: 'center', color: "#fff", fontSize: 25, fontWeight: 'bold' }}>Small Sawlog</Text>
           </View>
           <View style={{ width: "100%", flexDirection: 'row',  height: 50,backgroundColor:'rgba(0,0,0,0.5)', justifyContent: 'space-around', marginTop: 20, }}>
 
