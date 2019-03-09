@@ -7,8 +7,8 @@ import BaseUrl from '../../helpers/BaseUrl';
 import styles from "./Styles";
 
 export default class ExistingCruises extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state={
       cruiseList:[],
       user:'defaultValue',
@@ -35,7 +35,7 @@ export default class ExistingCruises extends Component {
     })
   }
   componentDidUpdate=()=>{
-    console.log(this.state.user,this.state.existingCruiseId)
+    console.log(this.state.cruiseList)
   }
   getCruiseList=()=>{
     let res = Helper( 'GET');
@@ -73,8 +73,8 @@ export default class ExistingCruises extends Component {
       console.log(`Error while deleting cruise name ${err}`);
     })
   }
-  pickerAtivity=(e)=>{
-     console.log(e);
+  handleListOfCruises=(e)=>{
+    this.props.navigation.navigate('CruiseDetails',{existingCruiseId:this.state.existingCruiseId});
   }
   render() {
     return (
@@ -87,7 +87,7 @@ export default class ExistingCruises extends Component {
             Existing Cruise
          </Text>
 
-       <Picker style={styles.pickerStyle} selectedValue = {this.state.user} onValueChange = {this.updateUser} selectedValue={this.state.user} onPress={(e)=>{this.pickerAtivity(e)}}>
+       <Picker style={styles.pickerStyle} selectedValue = {this.state.user} onValueChange = {this.updateUser} selectedValue={this.state.user}>
                <Picker.Item label = "List of Existing Cruise" value = "defaultValue" />
                {
                  this.state.cruiseList.map((item, index)=>{
@@ -100,7 +100,7 @@ export default class ExistingCruises extends Component {
           <Button
             containerStyle={styles.buttonStyle}
             style={styles.buttonStyleText}
-            onPress={() => this.props.navigation.navigate("Plot")}
+            onPress={() => this.handleListOfCruises()}
           >
             Open
           </Button>
