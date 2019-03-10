@@ -11,12 +11,14 @@ export default class AdditionalVegetationNotes extends Component {
     super(props);
     console.log(this.props)
     this.state={
-      additional_vegetation_notes:''
+      additional_vegetation_notes:'',
+      cruise_id:''
     }
   }
   static navigationOptions = {
     header: null
   };
+
   savePlotData=async()=>{
     try
     {
@@ -37,8 +39,6 @@ export default class AdditionalVegetationNotes extends Component {
       var gravels = await AsyncStorage.getItem('gravels');
       var cobbles = await AsyncStorage.getItem('cobbles');
       var additional_vegetation_notes =this.state.additional_vegetation_notes ;
-
-      console.log(cruise_id,species,ht,dbh,canopy_closure,soil_rock,moss_lichen,ground_grass,cover_forb,shrub,organic,sand,silt,clay,gravels,cobbles,additional_vegetation_notes)
 
       var data = new FormData();
       data.append('cruise_id', cruise_id.toString());
@@ -66,12 +66,14 @@ export default class AdditionalVegetationNotes extends Component {
           return response.json()
         })
         .then((res) => {
-          console.log(res)
+
           Alert.alert(
             'Add plot or not',
           'Do you want to add more plot',
           [
-            { text: 'no', onPress: () => { this.props.navigation.navigate('FlemingSENRS') }, style: 'cancel' },
+            { text: 'no', onPress: () => { 
+              this.props.navigation.navigate('FlemingSENRS')
+             }, style: 'cancel' },
             {
               text: 'Yes', onPress: () => {
                 this.props.navigation.navigate('Plotdbh')
