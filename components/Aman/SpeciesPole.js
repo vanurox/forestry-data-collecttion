@@ -62,7 +62,7 @@ export default class SpeciesPole extends Component {
             'Add species or not',
           'Do you want to add more species',
           [
-            { text: 'no', onPress: () => { this.props.navigation.navigate('Plotdbh'),this._storeName() }, style: 'cancel' },
+            { text: 'no', onPress: () => { this.props.navigation.push('Sweep',{'demoParam':'hi'}),this._storeName() }, style: 'cancel' },
             {
               text: 'Yes', onPress: () => {
                 this.props.navigation.navigate('SpeciesPole'),this._storeName()
