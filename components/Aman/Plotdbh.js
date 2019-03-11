@@ -12,42 +12,12 @@ export default class Plotdbh extends Component {
     this.state={
       species:'',
       ht:0,
-      dbh:''
+      dbh:'',
     }
-    console.log("plot vaali screen")
   }
   static navigationOptions = {
     header: null
   };
-  hitApi=async()=>{
-    try {
-      const value = await AsyncStorage.getItem('cruise_id');
-      console.log("value of cruise_id is",value)
-      let data = new FormData();
-      data.append("upload_plot_number","hi");
-      data.append("cruise_id",value);
-      if (value !== null) {
-        fetch(BaseUrl,{
-          method:"POST",
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          body: data
-        })
-        .then((response)=>{
-          return response.json()
-        })
-        .then((res)=>{
-          console.log("response is ",res)
-        })
-        .catch((err)=>{
-          console.log("something went wrong ",err)
-        })
-      }
-    } catch (error) {
-      console.log("something went wrong")
-    }
-  }
   nextScreen=async()=>{
     try{
       await AsyncStorage.setItem('species',this.state.species)
@@ -60,9 +30,7 @@ export default class Plotdbh extends Component {
 
     }
   }
-  componentWillMount(){
-    this.hitApi();
-  }
+  
   render() {
     return (
 
@@ -105,14 +73,8 @@ export default class Plotdbh extends Component {
                 style={styles.inputSpeciesStyle}
                 placeholder="3"
                 onChangeText={(dbh) => this.setState({dbh})}
-              />
-               
-              
+              />       
         </View>
-       
-    
-
-        
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
@@ -125,10 +87,7 @@ export default class Plotdbh extends Component {
             onPress={() => this.props.navigation.navigate("Sweep")}
           >           
           Back
-          </Button> 
-          
-        
-               
+          </Button>        
         </ImageBackground>        
       </View>
     );

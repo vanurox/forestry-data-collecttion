@@ -72,7 +72,7 @@ export default class AdditionalVegetationNotes extends Component {
           'Do you want to add more plot',
           [
             { text: 'no', onPress: () => { 
-              this.props.navigation.navigate('FlemingSENRS')
+              this.hitApi();
              }, style: 'cancel' },
             {
               text: 'Yes', onPress: () => {
@@ -92,6 +92,38 @@ export default class AdditionalVegetationNotes extends Component {
     catch(err)
     {
       console.log("error while saving to async",err);
+    }
+  }
+  hitApi=async()=>{
+    try {
+      const value = await AsyncStorage.getItem('cruise_id');
+      const plotValue = await AsyncStorage.getItem('PlotHitDone');
+      console.log("value of cruise_id is",value)
+      let data = new FormData();
+      data.append("update_plot_number","hi");
+      data.append("cruise_id",value);
+      if (value !== null&&(plotValue!==null||plotValue!==''||plotValue!==undefined)) {
+        fetch(BaseUrl,{
+          method:"POST",
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          body: data
+        })
+        .then((response)=>{
+          return response.json()
+        })
+        .then((res)=>{
+          if(res.msg==1){
+            this.props.navigation.navigate('FlemingSENRS')
+          }
+        })
+        .catch((err)=>{
+          console.log("something went wrong ",err)
+        })
+      }
+    } catch (error) {
+      console.log("something went wrong")
     }
   }
   render() {
