@@ -72,7 +72,7 @@ export default class AdditionalVegetationNotes extends Component {
           'Do you want to add more plot',
           [
             { text: 'no', onPress: () => { 
-              // this.hitApi();
+             this.props.navigation.navigate('FlemingSENRS')
              }, style: 'cancel' },
             {
               text: 'Yes', onPress: () => {
@@ -115,7 +115,6 @@ export default class AdditionalVegetationNotes extends Component {
   //       })
   //       .then((res)=>{
   //         if(res.msg==1){
-  //           this.props.navigation.navigate('FlemingSENRS')
   //         }
   //       })
   //       .catch((err)=>{

@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 20814,
-  "expoServerNgrokUrl": "https://nz-tix.vchhabra.forestry-data-collection.exp.direct",
-  "packagerNgrokUrl": "https://packager.nz-tix.vchhabra.forestry-data-collection.exp.direct",
-  "ngrokPid": 20828
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
