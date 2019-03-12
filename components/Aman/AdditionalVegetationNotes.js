@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground,Alert,AsyncStorage } from "react-native";
+import { View, Text, TextInput, StyleSheet, ImageBackground, Alert, AsyncStorage } from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -7,18 +7,20 @@ import styles from "./Styles";
 import BaseUrl from "../../helpers/BaseUrl";
 
 export default class AdditionalVegetationNotes extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      additional_vegetation_notes:''
+    console.log(this.props)
+    this.state = {
+      additional_vegetation_notes: '',
+      cruise_id: ''
     }
   }
   static navigationOptions = {
     header: null
   };
-  savePlotData=async()=>{
-    try
-    {
+
+  savePlotData = async () => {
+    try {
       var cruise_id = await AsyncStorage.getItem('cruise_id');
       var species = await AsyncStorage.getItem('species');
       var ht = await AsyncStorage.getItem('ht');
@@ -35,7 +37,7 @@ export default class AdditionalVegetationNotes extends Component {
       var clay = await AsyncStorage.getItem('clay');
       var gravels = await AsyncStorage.getItem('gravels');
       var cobbles = await AsyncStorage.getItem('cobbles');
-      var additional_vegetation_notes =this.state.additional_vegetation_notes ;
+      var additional_vegetation_notes = this.state.additional_vegetation_notes;
       var data = new FormData();
       data.append('cruise_id', cruise_id.toString());
       data.append('species', species.toString());
@@ -45,16 +47,16 @@ export default class AdditionalVegetationNotes extends Component {
       data.append('soil_rock', soil_rock.toString())
       data.append('moss_lichen', moss_lichen.toString())
       data.append('ground_grass', ground_grass.toString())
-      data.append('cover_forb', cover_forb.toString())
+      data.append('cover_forb', cover_forb)
       data.append('shrub', shrub.toString())
-      data.append('organic', "abc")
+      data.append('organic', organic.toString())
       data.append('sand', sand.toString())
       data.append('silt', silt.toString())
       data.append('clay', clay.toString())
       data.append('gravels', gravels.toString())
       data.append('cobbles', cobbles.toString())
       data.append('additional_vegetation_notes', this.state.additional_vegetation_notes.toString())
-      fetch( BaseUrl, {
+      fetch(BaseUrl, {
         method: 'POST',
         body: data
       })
@@ -62,8 +64,24 @@ export default class AdditionalVegetationNotes extends Component {
           return response.json()
         })
         .then((res) => {
-          console.log(res);
-          this.props.navigation.navigate("FlemingSENRS");
+
+          Alert.alert(
+            'Add plot or not',
+            'Do you want to add more plot',
+            [
+              {
+                text: 'no', onPress: () => {
+                  this.props.navigation.navigate('FlemingSENRS')
+                }, style: 'cancel'
+              },
+              {
+                text: 'Yes', onPress: () => {
+                  this.props.navigation.navigate('Plotdbh')
+                }
+              },
+            ],
+            { cancelable: false }
+          )
         })
         .catch((err) => {
           console.log(err);
@@ -71,11 +89,41 @@ export default class AdditionalVegetationNotes extends Component {
 
 
     }
-    catch(err)
-    {
-      console.log(err);
+    catch (err) {
+      console.log("error while saving to async", err);
     }
   }
+  // hitApi=async()=>{
+  //   try {
+  //     const value = await AsyncStorage.getItem('cruise_id');
+  //     const plotValue = await AsyncStorage.getItem('PlotHitDone');
+  //     console.log("value of cruise_id is",value)
+  //     let data = new FormData();
+  //     data.append("update_plot_number","hi");
+  //     data.append("cruise_id",value);
+  //     if (value !== null&&(plotValue!==null||plotValue!==''||plotValue!==undefined)) {
+  //       fetch(BaseUrl,{
+  //         method:"POST",
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data'
+  //         },
+  //         body: data
+  //       })
+  //       .then((response)=>{
+  //         return response.json()
+  //       })
+  //       .then((res)=>{
+  //         if(res.msg==1){
+  //         }
+  //       })
+  //       .catch((err)=>{
+  //         console.log("something went wrong ",err)
+  //       })
+  //     }
+  //   } catch (error) {
+  //     console.log("something went wrong")
+  //   }
+  // }
   render() {
     return (
 
@@ -84,44 +132,44 @@ export default class AdditionalVegetationNotes extends Component {
           source={require("./bg.jpg")}
           style={styles.backgroundImage}
         >
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyle5}>
-            Plot
+          <View style={styles.rowSpeciesStyle}>
+            <Text style={styles.textStyle5}>
+              Plot
          </Text>
-         <Text style = {styles.textStyleAdd}>
-            Additional Vegetation Notes
+            <Text style={styles.textStyleAdd}>
+              Additional Vegetation Notes
          </Text>
-         
-        </View>
-        
-        <View style={styles.rowSpeciesStyle}>
-        <Text style = {styles.textStyleNum}>
-            1
+
+          </View>
+
+          <View style={styles.rowSpeciesStyle}>
+            <Text style={styles.textStyleNum}>
+              1
          </Text>
-         <TextInput
-                style={styles.inputaddsStyle}
-                placeholder=""
-                onChangeText={(additional_vegetation_notes) => this.setState({additional_vegetation_notes})}
-              />
-             
-               
-              
-        </View>
+            <TextInput
+              style={styles.inputaddsStyle}
+              placeholder=""
+              onChangeText={(additional_vegetation_notes) => this.setState({ additional_vegetation_notes })}
+            />
+
+
+
+          </View>
           <Button
             containerStyle={styles.buttonStylePole}
             style={styles.buttonStyleText1}
-            onPress={() => {this.savePlotData()}}
+            onPress={() => { this.savePlotData() }}
           >
             Done
           </Button>
-           <Button
+          <Button
             style={styles.backButtonStylePole}
             onPress={() => this.props.navigation.navigate("Organic")}
-          >           
-          Back
-          </Button> 
-               
-        </ImageBackground>        
+          >
+            Back
+          </Button>
+
+        </ImageBackground>
       </View>
     );
   }

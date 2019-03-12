@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { View, Text,TextInput, StyleSheet, ImageBackground,Alert } from "react-native";
+import { View, Text,TextInput, StyleSheet, ImageBackground,Alert, AsyncStorage } from "react-native";
 import Button from "react-native-button";
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import styles from "./Styles";
+import BaseUrl from '../../helpers/BaseUrl';
 
 export default class Sweep extends Component {
 
@@ -12,6 +12,8 @@ export default class Sweep extends Component {
     super(props);
     this.state={
       cruise_name:'',
+      cruiseId:'',
+      valueToDisplay:''
     }
   }
   
@@ -19,9 +21,46 @@ export default class Sweep extends Component {
     header: null
   };
   componentWillMount() {
+    console.log('cwm')
     this.setState({
       cruise_name:this.props.navigation.state.params.cruise_name
     })
+    this.getCruiseId();
+  }
+  getCruiseId=async()=>{
+    try{
+      const value = await AsyncStorage.getItem('cruise_id')
+      this.setState({
+      cruiseId:value
+      },()=>{
+        let data = new FormData();
+        data.append("cruise_id",this.state.cruiseId);
+        data.append("get_plot_number","sak/j")
+        fetch(BaseUrl,{
+          method:"POST",
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          body:data
+        })
+        .then((res)=>{
+          return res.json()
+        })
+        .then((res)=>{
+          console.log(res)
+          this.setState({
+            valueToDisplay:res.number_of_plots
+          })
+        })
+        .catch((err)=>{
+          console.log('error occured while hitting the api', err)
+        })
+      }
+      )
+    }
+    catch(err){
+      console.log("something went wrong while fetching the data from async storage", err)
+    }
   }
   render() {
     return (
@@ -33,11 +72,23 @@ export default class Sweep extends Component {
          <Text style = {styles.textStyleCruise}>
             {this.state.cruise_name}
          </Text>
-        <TextInput
+        {
+          this.state.valueToDisplay===null||this.state.valueToDisplay===''?(<TextInput
+            style={styles.inputStyle1}
+            placeholder="Number Of Plots"
+            onChangeText={(text) => this.setState({text})}
+            value='NULL'
+            editable={false}
+          />):(
+            <TextInput
           style={styles.inputStyle1}
           placeholder="Number Of Plots"
           onChangeText={(text) => this.setState({text})}
+          value={this.state.valueToDisplay}
+          editable={false}
         />
+          )
+        }
           <Button
             containerStyle={styles.buttonStyle}
             style={styles.buttonStyleText}
@@ -72,5 +123,8 @@ export default class Sweep extends Component {
         </ImageBackground>        
       </View>
     );
+  }
+  componentDidMount(){
+    
   }
 }
