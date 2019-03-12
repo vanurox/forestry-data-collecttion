@@ -15,8 +15,8 @@ export default class CruiseType extends Component {
           source={require("./bg.jpg")}
           style={styles.backgroundImage}
         >
-         <Text style = {styles.textStyleCruise}>
-            Cruise Type 
+          <Text style={styles.textStyleCruise}>
+            Cruise Type
          </Text>
           <Button
             containerStyle={styles.buttonStyle}
@@ -50,7 +50,7 @@ export default class CruiseType extends Component {
             style={styles.backButtonStyle}
             onPress={() => this.props.navigation.navigate("CruiseName")}
           >
-            Back 
+            Back
           </Button>
         </ImageBackground>
       </View>

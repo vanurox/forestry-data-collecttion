@@ -47,9 +47,11 @@ export default class Sweep extends Component {
           return res.json()
         })
         .then((res)=>{
-          console.log(res)
+          console.log(res);
+
+          let num = res.number_of_plots === null ? '0' : res.number_of_plots;
           this.setState({
-            valueToDisplay:res.number_of_plots
+            valueToDisplay:num
           })
         })
         .catch((err)=>{
