@@ -30,11 +30,22 @@ export default class CanopyClosure extends Component {
       await AsyncStorage.setItem('cover_forb',this.state.cover_forb)
       await AsyncStorage.setItem('shrub',this.state.shrub)
       this.props.navigation.navigate('Organic');
+      this.emptyFields();
     }
     catch(err)
     {
       console.log("Not saved");
     }
+  }
+  emptyFields=()=>{
+    this.setState({
+      canopy_closure:'',
+      soil_rock:'',
+      moss_lichen:'',
+      ground_grass:'',
+      cover_forb:'',
+      shrub:''
+    })
   }
   render() {
     return (

@@ -62,10 +62,10 @@ export default class SpeciesPole extends Component {
             'Add species or not',
           'Do you want to add more species',
           [
-            { text: 'no', onPress: () => { this.props.navigation.push('Sweep',{'demoParam':'hi'}),this._storeName() }, style: 'cancel' },
+            { text: 'no', onPress: () => { this.props.navigation.push('Sweep',{'demoParam':'hi'}),this._storeName(),this.emptyFields() }, style: 'cancel' },
             {
               text: 'Yes', onPress: () => {
-                this.props.navigation.navigate('SpeciesPole'),this._storeName()
+                this.props.navigation.navigate('SpeciesPole'),this._storeName(),this.emptyFields()
               }
             },
           ],
@@ -79,9 +79,11 @@ export default class SpeciesPole extends Component {
     catch (err) {
       Alert.alert(err);
     }
-
-
-
+  }
+  emptyFields=()=>{
+    this.setState({
+      text:''
+    })
   }
   speciesName = async () => {
     try {
@@ -252,7 +254,7 @@ export default class SpeciesPole extends Component {
 
           <Button
             style={styles.backButtonStylePole}
-            onPress={() => this.props.navigation.navigate("Sweep")}
+            onPress={() => this.props.navigation.push("Sweep")}
           >
             Back
           </Button>

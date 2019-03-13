@@ -47,10 +47,16 @@ export default class CruiseName extends Component {
       if(res.msg==1){
         this._storeName(res.cruise_id);
         this.props.navigation.navigate("CruiseType");
+        this.emptyFields()
       }
     })
     .catch((err)=>{
       console.log(`Error while inserting cruise name ${err}`);
+    })
+  }
+  emptyFields=()=>{
+    this.setState({
+      cruiseName:''
     })
   }
   nextScreenAndAddName=()=>{

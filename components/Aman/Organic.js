@@ -28,10 +28,21 @@ export default class Organic extends Component {
       await AsyncStorage.setItem('gravels', this.state.gravels)
       await AsyncStorage.setItem('cobbles', this.state.cobbles)
       this.props.navigation.navigate('AdditionalVegetationNotes');
+      this.emptyFields();
     }
     catch (err) {
       console.log("Not saved");
     }
+  }
+  emptyFields=()=>{
+    this.setState({
+      organic:'',
+      sand:'',
+      silt:'',
+      clay:'',
+      gravels:'',
+      cobbles:''
+    })
   }
   static navigationOptions = {
     header: null

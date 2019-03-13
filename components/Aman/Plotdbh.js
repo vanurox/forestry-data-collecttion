@@ -24,6 +24,11 @@ export default class Plotdbh extends Component {
       await AsyncStorage.setItem('ht',this.state.ht)
       await AsyncStorage.setItem('dbh',this.state.dbh)
       this.props.navigation.navigate('CanopyClosure');
+      this.setState({
+        ht:0,
+        dbh:'',
+        species:''
+      })
     }
     catch(err)
     {

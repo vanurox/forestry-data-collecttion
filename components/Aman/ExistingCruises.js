@@ -25,7 +25,6 @@ export default class ExistingCruises extends Component {
     this.setState({ user: user }, () => {
       this.state.cruiseList.forEach((element, value) => {
         if (value == index) {
-          console.log(value, index);
           this.setState({
             user: user,
             existingCruiseId: element.id
@@ -47,6 +46,7 @@ export default class ExistingCruises extends Component {
     })
   }
   deleteExistingCruise = () => {
+    console.log(this.state.existingCruiseId)
     let data = new FormData();
     data.append('delete_cruise', this.state.user);
     data.append('cruise_id', this.state.existingCruiseId);

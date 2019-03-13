@@ -82,15 +82,38 @@ export default class AdditionalVegetationNotes extends Component {
             ],
             { cancelable: false }
           )
+        this.resetData();
         })
         .catch((err) => {
           console.log(err);
         })
 
-
     }
     catch (err) {
       console.log("error while saving to async", err);
+    }
+  }
+  resetData=async()=>{
+    try {
+      await AsyncStorage.setItem('cruise_id', null);
+      await AsyncStorage.setItem('species', null);
+      await AsyncStorage.setItem('ht', null);
+      await AsyncStorage.setItem('dbh', null);
+      await AsyncStorage.setItem('canopy_closure', null);
+      await AsyncStorage.setItem('soil_rock', null);
+      await AsyncStorage.setItem('moss_lichen', null);
+      await AsyncStorage.setItem('ground_grass', null);
+      await AsyncStorage.setItem('cover_forb', null);
+      await AsyncStorage.setItem('shrub', null);
+      await AsyncStorage.setItem('organic', null);
+      await AsyncStorage.setItem('sand', null);
+      await AsyncStorage.setItem('silt', null);
+      await AsyncStorage.setItem('clay', null);
+      await AsyncStorage.setItem('gravels', null);
+      await AsyncStorage.setItem('cobbles', null);
+      await AsyncStorage.setItem('additional_vegetation_notes', null);
+    } catch (error) {
+      console.log(error)
     }
   }
   // hitApi=async()=>{

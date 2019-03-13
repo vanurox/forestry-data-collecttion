@@ -15,26 +15,35 @@ export default class Sweep extends Component {
       cruiseId:'',
       valueToDisplay:''
     }
+    console.log('constructor fired')
   }
   
   static navigationOptions = {
     header: null
   };
+  getCruiseName=async()=>{
+    try {
+      const value = await AsyncStorage.getItem('cruise_name');
+      if (value !== null) {
+        this.setState({
+          cruise_name:value
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   componentWillMount() {
     console.log('cwm')
-    this.setState({
-      cruise_name:this.props.navigation.state.params.cruise_name
-    })
+    this.getCruiseName();
     this.getCruiseId();
   }
   getCruiseId=async()=>{
     try{
-      const value = await AsyncStorage.getItem('cruise_id')
-      this.setState({
-      cruiseId:value
-      },()=>{
+      const value = await AsyncStorage.getItem('cruise_id');
+      console.log(this.state.cruiseId)
         let data = new FormData();
-        data.append("cruise_id",this.state.cruiseId);
+        data.append("cruise_id",value);
         data.append("get_plot_number","sak/j")
         fetch(BaseUrl,{
           method:"POST",
@@ -50,15 +59,15 @@ export default class Sweep extends Component {
           console.log(res);
 
           let num = res.number_of_plots === null ? '0' : res.number_of_plots;
+          console.log(num)
           this.setState({
-            valueToDisplay:num
+            valueToDisplay:num,
+            cruiseId:value
           })
         })
         .catch((err)=>{
           console.log('error occured while hitting the api', err)
         })
-      }
-      )
     }
     catch(err){
       console.log("something went wrong while fetching the data from async storage", err)
