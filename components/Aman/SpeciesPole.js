@@ -12,15 +12,15 @@ export default class SpeciesPole extends Component {
     this.state = {
       cruise_id: '',
       text: '',
-      pole_ags:'0',
-      pole_ugs:'0',
-      medium_ags:'0',
-      medium_ugs:'0',
-      small_sawlog_ags:'0',
-      small_sawlog_ugs:'0',
-      large_sawlog_ags:'0',
-      large_sawlog_ugs:'0'
-      
+      pole_ags: '0',
+      pole_ugs: '0',
+      medium_ags: '0',
+      medium_ugs: '0',
+      small_sawlog_ags: '0',
+      small_sawlog_ugs: '0',
+      large_sawlog_ags: '0',
+      large_sawlog_ugs: '0'
+
     }
   }
   static navigationOptions = {
@@ -38,19 +38,20 @@ export default class SpeciesPole extends Component {
       var small_sawlog_ugs = await AsyncStorage.getItem('small_sawlog_ugs');
       var medium_ags = await AsyncStorage.getItem('medium_ags');
       var medium_ugs = await AsyncStorage.getItem('medium_ugs');
-      
+
       var data = new FormData();
-      data.append('cruise_id', cruise_id.toString());
-      data.append('species_name', species_name.toString());
-      data.append('pole_ags', pole_ags.toString());
-      data.append('pole_ugs', pole_ugs.toString());
-      data.append('small_sawlog_ags', small_sawlog_ags.toString());
-      data.append('small_sawlog_ugs', small_sawlog_ugs.toString())
-      data.append('medium_ags', medium_ags.toString())
-      data.append('medium_ugs', medium_ugs.toString())
-      data.append('large_sawlog_ugs', large_sawlog_ugs.toString())
-      data.append('large_sawlog_ags', large_sawlog_ags.toString())
-      fetch( BaseUrl, {
+      data.append('cruise_id', cruise_id);
+      data.append('species_name', species_name);
+      data.append('pole_ags', pole_ags);
+      data.append('pole_ugs', pole_ugs);
+      data.append('small_sawlog_ags', small_sawlog_ags);
+      data.append('small_sawlog_ugs', small_sawlog_ugs)
+      data.append('medium_ags', medium_ags)
+      data.append('medium_ugs', medium_ugs)
+      data.append('large_sawlog_ugs', large_sawlog_ugs)
+      data.append('large_sawlog_ags', large_sawlog_ags)
+      console.log('Save Sweep called');
+      fetch(BaseUrl, {
         method: 'POST',
         body: data
       })
@@ -58,37 +59,67 @@ export default class SpeciesPole extends Component {
           return response.json()
         })
         .then((res) => {
+          console.log(res);
           Alert.alert(
             'Add species or not',
-          'Do you want to add more species',
-          [
-            { text: 'no', onPress: () => { this.props.navigation.push('Sweep',{'demoParam':'hi'}),this._storeName(),this.emptyFields() }, style: 'cancel' },
-            {
-              text: 'Yes', onPress: () => {
-                this.props.navigation.navigate('SpeciesPole'),this._storeName(),this.emptyFields()
-              }
-            },
-          ],
-          { cancelable: false }
-        )
+            'Do you want to add more species',
+            [
+              { text: 'no', onPress: () => { this.updatePlotNumber(), this._storeName(), this.emptyFields() }, style: 'cancel' },
+              {
+                text: 'Yes', onPress: () => {
+                  this.props.navigation.navigate('SpeciesPole'), this._storeName(), this.emptyFields()
+                }
+              },
+            ],
+            { cancelable: false }
+          )
         })
         .catch((err) => {
-          Alert.alert("Error ")
+          console.log(`Error whileperforming sweep insertion`)
+          Alert.alert(err)
         })
     }
     catch (err) {
+      console.log(err);
       Alert.alert(err);
     }
   }
-  emptyFields=()=>{
+
+  updatePlotNumber = async () => {
+    try {
+      let fd = new FormData();
+      let cruise_id = await AsyncStorage.getItem('cruise_id');
+      console.log(`Cruise id is ${cruise_id}`);
+      fd.append('cruise_id', cruise_id);
+      fd.append('update_plot_number', 'testing');
+
+      fetch(BaseUrl, {
+        method: 'POST',
+        body: fd
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((r) => {
+          this.props.navigation.push('Sweep', { 'demoParam': 'hi' })
+        })
+        .catch((err) => {
+          console.log(`Error while updating plot number`);
+        })
+    } catch (err) {
+      Alert.alert(err);
+    }
+  }
+  emptyFields = () => {
+
     this.setState({
-      text:''
+      text: ''
     })
   }
   speciesName = async () => {
     try {
       await AsyncStorage.setItem('species_name', this.state.text);
-      
+
 
     } catch (error) {
       Alert.alert('Error while saving the cruise name')
@@ -110,33 +141,33 @@ export default class SpeciesPole extends Component {
         this.setState({
           text: species_name,
           cruise_id: cruise_id,
-          pole_ags:pole_ags,
-          pole_ugs:pole_ugs,
-          medium_ags:medium_ags,
-          medium_ugs:medium_ugs,
-          small_sawlog_ags:small_sawlog_ags,
-          small_sawlog_ugs:small_sawlog_ugs,
-          large_sawlog_ags:large_sawlog_ags,
-          large_sawlog_ugs:large_sawlog_ugs
+          pole_ags: pole_ags,
+          pole_ugs: pole_ugs,
+          medium_ags: medium_ags,
+          medium_ugs: medium_ugs,
+          small_sawlog_ags: small_sawlog_ags,
+          small_sawlog_ugs: small_sawlog_ugs,
+          large_sawlog_ags: large_sawlog_ags,
+          large_sawlog_ugs: large_sawlog_ugs
         })
       }
     } catch (error) {
       Alert.alert('error while fetching from async storage')
     }
   };
-  _storeName=async(id)=>{
+  _storeName = async (id) => {
     try {
-      await AsyncStorage.setItem('species_name','' );
+      await AsyncStorage.setItem('species_name', '');
       await AsyncStorage.setItem('pole_ags', '0');
       await AsyncStorage.setItem('pole_ugs', '0');
       await AsyncStorage.setItem('small_sawlog_ags', '0');
-      await AsyncStorage.setItem('small_sawlog_ugs','0' );
-      await AsyncStorage.setItem('medium_ags','0' );
+      await AsyncStorage.setItem('small_sawlog_ugs', '0');
+      await AsyncStorage.setItem('medium_ags', '0');
       await AsyncStorage.setItem('medium_ugs', '0');
       await AsyncStorage.setItem('large_sawlog_ags', '0');
       await AsyncStorage.setItem('large_sawlog_ugs', '0');
     } catch (error) {
-      
+
     }
   }
 
