@@ -187,7 +187,7 @@ export default class AdditionalVegetationNotes extends Component {
           </Button>
           <Button
             style={styles.backButtonStylePole}
-            onPress={() => this.props.navigation.navigate("Organic")}
+            onPress={() => this.props.navigation.push("Organic")}
           >
             Back
           </Button>
