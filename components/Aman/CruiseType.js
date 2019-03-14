@@ -1,13 +1,39 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, AsyncStorage } from "react-native";
 import Button from "react-native-button";
 
 import styles from "./Styles";
+import BaseUrl from "../../helpers/BaseUrl";
 
 export default class CruiseType extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cruise_id: null
+    };
+    AsyncStorage.getItem('cruise_id').then((cruise_id) => {
+      // console.log(`cruise_id is ${cruise_id}`);
+      this.cruise_id = cruise_id;
+    })
+  }
   static navigationOptions = {
     header: null
   };
+
+  saveCruiseType = (cruise_type) => {
+    let fd = new FormData();
+    fd.append('cruise_id', this.cruise_id);
+    fd.append('cruise_type', cruise_type);
+    fetch(BaseUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body: fd
+    })
+    this.props.navigation.navigate("BasalAreaFactor");
+
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -21,7 +47,7 @@ export default class CruiseType extends Component {
           <Button
             containerStyle={styles.buttonStyle}
             style={styles.buttonStyleText}
-            onPress={() => this.props.navigation.navigate("BasalAreaFactor")}
+            onPress={() => this.saveCruiseType('variable radius')}
           >
             Variable Radius
           </Button>
@@ -35,7 +61,7 @@ export default class CruiseType extends Component {
           <Button
             containerStyle={styles.buttonStyle}
             style={styles.buttonStyleText}
-            onPress={() => this.props.navigation.navigate("BasalAreaFactor")}
+            onPress={() => this.saveCruiseType('mixed radius')}
           >
             Mixed Radius
           </Button>
