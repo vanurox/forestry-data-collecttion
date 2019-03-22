@@ -22,8 +22,8 @@ export default class Pole extends Component {
   
  
   nextScreen=()=>{
-    AsyncStorage.setItem('medium_ugs', this.state.ugsValue.toString());
-    AsyncStorage.setItem('medium_ags', this.state.agsValue.toString());
+    AsyncStorage.setItem(`medium_ugs${this.props.navigation.state.params.id}`, this.state.ugsValue.toString());
+    AsyncStorage.setItem(`medium_ags${this.props.navigation.state.params.id}`, this.state.agsValue.toString());
     this.props.navigation.navigate('SpeciesPole',{
       screenName:'MediumSawlog'
     });

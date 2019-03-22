@@ -23,8 +23,8 @@ export default class Pole extends Component {
     this.setState({ user: user })
   }
   nextScreen=()=>{
-     AsyncStorage.setItem('pole_ugs', this.state.ugsValue.toString());
-     AsyncStorage.setItem('pole_ags', this.state.agsValue.toString());
+     AsyncStorage.setItem(`pole_ugs${this.props.navigation.state.params.id}`, this.state.ugsValue.toString());
+     AsyncStorage.setItem(`pole_ags${this.props.navigation.state.params.id}`, this.state.agsValue.toString());
     this.props.navigation.navigate('SpeciesPole',{
       screenName:'Pole'
     });
