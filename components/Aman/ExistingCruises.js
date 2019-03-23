@@ -33,20 +33,15 @@ export default class ExistingCruises extends Component {
       });
     })
   }
-  componentDidUpdate = () => {
-    console.log(this.state.cruiseList)
-  }
   getCruiseList = () => {
     let res = Helper('GET');
     res.then((res) => {
-      console.log(res);
       this.setState({
         cruiseList: res
       })
     })
   }
   deleteExistingCruise = () => {
-    console.log(this.state.existingCruiseId)
     let data = new FormData();
     data.append('delete_cruise', this.state.user);
     data.append('cruise_id', this.state.existingCruiseId);
@@ -61,7 +56,6 @@ export default class ExistingCruises extends Component {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         if (res.msg === 1) {
           this.props.navigation.navigate("Cruise");
         }

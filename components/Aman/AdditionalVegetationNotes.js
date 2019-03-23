@@ -9,7 +9,6 @@ import BaseUrl from "../../helpers/BaseUrl";
 export default class AdditionalVegetationNotes extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
     this.state = {
       additional_vegetation_notes: '',
       cruise_id: ''

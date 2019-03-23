@@ -21,7 +21,6 @@ export default class Organic extends Component {
   saveData = async () => {
     try {
       await AsyncStorage.setItem('organic', this.state.organic)
-      console.log(this.state.organic);
       await AsyncStorage.setItem('sand', this.state.sand)
       await AsyncStorage.setItem('silt', this.state.silt)
       await AsyncStorage.setItem('clay', this.state.clay)

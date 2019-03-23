@@ -43,7 +43,8 @@ export default class BasalAreaFactor extends Component {
     res.then((res) => {
       if (res.msg == 1) {
         this.props.navigation.navigate("Sweep", {
-          cruise_name: this.state.cruise_name
+          cruise_name: this.state.cruise_name,
+          cruise_id:null
         })
       }
     })

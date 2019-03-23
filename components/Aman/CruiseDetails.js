@@ -92,9 +92,6 @@ class CruiseDetails extends Component {
                 console.log(`Error while fetching data from the database ${err}`);
             })
     }
-    componentDidUpdate() {
-        console.log(this.state.tableCruiseData, this.state.tableCruiseTitle)
-    }
     render() {
         return (
             <View style={styles.container}>

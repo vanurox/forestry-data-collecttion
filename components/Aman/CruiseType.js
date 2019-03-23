@@ -12,7 +12,6 @@ export default class CruiseType extends Component {
       cruise_id: null
     };
     AsyncStorage.getItem('cruise_id').then((cruise_id) => {
-      // console.log(`cruise_id is ${cruise_id}`);
       this.cruise_id = cruise_id;
     })
   }

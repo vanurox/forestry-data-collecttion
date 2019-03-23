@@ -5,14 +5,15 @@ import Button from "react-native-button";
 import styles from "./Styles";
 
 export default class Pole extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       agsValue: 0,
       ugsValue:0,
      
 
     }
+    console.log(this.props.navigation.state.params.id);
   }
   static navigationOptions = {
     header: null
@@ -23,6 +24,7 @@ export default class Pole extends Component {
     this.setState({ user: user })
   }
   nextScreen=()=>{
+
      AsyncStorage.setItem(`pole_ugs${this.props.navigation.state.params.id}`, this.state.ugsValue.toString());
      AsyncStorage.setItem(`pole_ags${this.props.navigation.state.params.id}`, this.state.agsValue.toString());
     this.props.navigation.navigate('SpeciesPole',{

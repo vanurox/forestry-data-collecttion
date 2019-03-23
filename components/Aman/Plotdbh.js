@@ -14,7 +14,6 @@ export default class Plotdbh extends Component {
       ht: '0',
       dbh: '',
     };
-    console.log("Plotdbh constructor called");
   }
   static navigationOptions = {
     header: null

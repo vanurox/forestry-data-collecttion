@@ -10,7 +10,7 @@ export default class SpeciesPole extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cruise_id: '',
+      cruise_id: null,
       text: '',
       pole_ags: '0',
       pole_ugs: '0',
@@ -49,8 +49,7 @@ export default class SpeciesPole extends Component {
       small_sawlog_ags3: '0',
       small_sawlog_ugs3: '0',
       large_sawlog_ags3: '0',
-      large_sawlog_ugs3: '0'
-
+      large_sawlog_ugs3: '0',
     }
   }
   static navigationOptions = {
@@ -59,9 +58,9 @@ export default class SpeciesPole extends Component {
   saveData = async () => {
     try {
       var cruise_id = await AsyncStorage.getItem('cruise_id');
-
-
-
+      this.setState({
+        cruise_id:cruise_id
+      })
       for (let t = 0; t < 4; t++) {
         var species_name = await AsyncStorage.getItem(`species_name${t}`);
         var pole_ags = await AsyncStorage.getItem(`pole_ags${t}`);
@@ -85,7 +84,6 @@ export default class SpeciesPole extends Component {
           data.append('medium_ugs', medium_ugs)
           data.append('large_sawlog_ugs', large_sawlog_ugs)
           data.append('large_sawlog_ags', large_sawlog_ags)
-          console.log('Save Sweep called');
           fetch(BaseUrl, {
             method: 'POST',
             body: data
@@ -94,10 +92,6 @@ export default class SpeciesPole extends Component {
               return response.json()
             })
             .then((res) => {
-              console.log(res);
-              this.updatePlotNumber();
-              this._storeName();
-              this.emptyFields();
             })
             .catch((err) => {
               console.log(`Error whileperforming sweep insertion`)
@@ -108,52 +102,130 @@ export default class SpeciesPole extends Component {
         {
           Alert.alert("Empty ")
         }
-
-
       }
-
-    }
+    } 
     catch (err) {
       console.log(err);
       Alert.alert(err);
     }
-  }
-
-  updatePlotNumber = async () => {
-    try {
-      let fd = new FormData();
-      let cruise_id = await AsyncStorage.getItem('cruise_id');
-      console.log(`Cruise id is ${cruise_id}`);
-      fd.append('cruise_id', cruise_id);
-      fd.append('update_plot_number', 'testing');
-
-      fetch(BaseUrl, {
-        method: 'POST',
-        body: fd
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((r) => {
-          this.props.navigation.push('Sweep', { 'demoParam': 'hi' })
-        })
-        .catch((err) => {
-          console.log(`Error while updating plot number`);
-        })
-    } catch (err) {
-      Alert.alert(err);
+    finally{
+      this.alertCheck();
     }
+  }
+  alertCheck=()=>{
+    Alert.alert(
+      'Add more species or not?',
+      'Do you want to add more Species??',
+      [
+        {
+          text: 'no', onPress: () => {
+            this._storeName();
+            this.emptyFields();
+            this.updatePlot();
+          }, style: 'cancel'
+        },
+        {
+          text: 'Yes', onPress: () => {
+            this._storeName();
+            this.emptyFields();
+            this.props.navigation.navigate("SpeciesPole")
+          }
+        },
+      ],
+      { cancelable: false }
+    )
+  }
+  updatePlot=()=>{
+      let fd = new FormData();
+     fd.append('cruise_id', this.state.cruise_id);
+     fd.append('update_plot_number', 'testing');
+
+     fetch(BaseUrl, {
+       method: 'POST',
+       body: fd
+     })
+       .then((res) => {
+         return res.json();
+       })
+       .then((r) => {
+        this.props.navigation.push('Sweep', { cruise_id: this.state.cruise_id })
+       })
+       .catch((err) => {
+         console.log(`Error while updating plot number`);
+       })
   }
   emptyFields = () => {
 
     this.setState({
-      text: ''
+      text: '',
+      pole_ags: '0',
+      pole_ugs: '0',
+      medium_ags: '0',
+      medium_ugs: '0',
+      small_sawlog_ags: '0',
+      small_sawlog_ugs: '0',
+      large_sawlog_ags: '0',
+      large_sawlog_ugs: '0',
+
+      text1: '',
+      pole_ags1: '0',
+      pole_ugs1: '0',
+      medium_ags1: '0',
+      medium_ugs1: '0',
+      small_sawlog_ags1: '0',
+      small_sawlog_ugs1: '0',
+      large_sawlog_ags1: '0',
+      large_sawlog_ugs1: '0',
+
+      text2: '',
+      pole_ags2: '0',
+      pole_ugs2: '0',
+      medium_ags2: '0',
+      medium_ugs2: '0',
+      small_sawlog_ags2: '0',
+      small_sawlog_ugs2: '0',
+      large_sawlog_ags2: '0',
+      large_sawlog_ugs2: '0',
+
+      text3: '',
+      pole_ags3: '0',
+      pole_ugs3: '0',
+      medium_ags3: '0',
+      medium_ugs3: '0',
+      small_sawlog_ags3: '0',
+      small_sawlog_ugs3: '0',
+      large_sawlog_ags3: '0',
+      large_sawlog_ugs3: '0',
+
     })
   }
-  speciesName = async (id) => {
+  speciesName = async () => {
     try {
-      await AsyncStorage.setItem(`species_name${id}`, this.state.text);
+      await AsyncStorage.setItem(`species_name0`, this.state.text);
 
+    } catch (error) {
+      Alert.alert('Error while saving the cruise name')
+    }
+  }
+  speciesName1 = async () => {
+    try {
+      await AsyncStorage.setItem(`species_name1`, this.state.text1);
+
+    } catch (error) {
+      Alert.alert('Error while saving the cruise name')
+    }
+  }
+  speciesName2 = async () => {
+    try {
+      await AsyncStorage.setItem(`species_name2`, this.state.text2);
+
+    } catch (error) {
+      Alert.alert('Error while saving the cruise name')
+    }
+  }
+  speciesName3 = async () => {
+    try {
+      await AsyncStorage.setItem(`species_name3`, this.state.text3);
 
     } catch (error) {
       Alert.alert('Error while saving the cruise name')
@@ -251,45 +323,45 @@ export default class SpeciesPole extends Component {
   };
   _storeName = async (id) => {
     try {
-      await AsyncStorage.setItem('species_name0', null);
-      await AsyncStorage.setItem('species_name1', null);
-      await AsyncStorage.setItem('species_name2', null);
-      await AsyncStorage.setItem('species_name3', null);
-      await AsyncStorage.setItem('pole_ags0', null);
-      await AsyncStorage.setItem('pole_ugs0', null);
-      await AsyncStorage.setItem('small_sawlog_ags0', null);
-      await AsyncStorage.setItem('small_sawlog_ugs0', null);
-      await AsyncStorage.setItem('medium_ags0', null);
-      await AsyncStorage.setItem('medium_ugs0', null);
-      await AsyncStorage.setItem('large_sawlog_ags0', null);
-      await AsyncStorage.setItem('large_sawlog_ugs0', null);
+      await AsyncStorage.setItem('species_name0', '');
+      await AsyncStorage.setItem('species_name1', '');
+      await AsyncStorage.setItem('species_name2', '');
+      await AsyncStorage.setItem('species_name3', '');
+      await AsyncStorage.setItem('pole_ags0', '');
+      await AsyncStorage.setItem('pole_ugs0', '');
+      await AsyncStorage.setItem('small_sawlog_ags0', '');
+      await AsyncStorage.setItem('small_sawlog_ugs0', '');
+      await AsyncStorage.setItem('medium_ags0', '');
+      await AsyncStorage.setItem('medium_ugs0', '');
+      await AsyncStorage.setItem('large_sawlog_ags0', '');
+      await AsyncStorage.setItem('large_sawlog_ugs0', '');
 
-      await AsyncStorage.setItem('pole_ags1', null);
-      await AsyncStorage.setItem('pole_ugs1', null);
-      await AsyncStorage.setItem('small_sawlog_ags1', null);
-      await AsyncStorage.setItem('small_sawlog_ugs1', null);
-      await AsyncStorage.setItem('medium_ags1', null);
-      await AsyncStorage.setItem('medium_ugs1', null);
-      await AsyncStorage.setItem('large_sawlog_ags1', null);
-      await AsyncStorage.setItem('large_sawlog_ugs1', null);
+      await AsyncStorage.setItem('pole_ags1', '');
+      await AsyncStorage.setItem('pole_ugs1', '');
+      await AsyncStorage.setItem('small_sawlog_ags1', '');
+      await AsyncStorage.setItem('small_sawlog_ugs1', '');
+      await AsyncStorage.setItem('medium_ags1', '');
+      await AsyncStorage.setItem('medium_ugs1', '');
+      await AsyncStorage.setItem('large_sawlog_ags1', '');
+      await AsyncStorage.setItem('large_sawlog_ugs1', '');
 
-      await AsyncStorage.setItem('pole_ags2', null);
-      await AsyncStorage.setItem('pole_ugs2', null);
-      await AsyncStorage.setItem('small_sawlog_ags2', null);
-      await AsyncStorage.setItem('small_sawlog_ugs2', null);
-      await AsyncStorage.setItem('medium_ags2', null);
-      await AsyncStorage.setItem('medium_ugs2', null);
-      await AsyncStorage.setItem('large_sawlog_ags2', null);
-      await AsyncStorage.setItem('large_sawlog_ugs2', null);
+      await AsyncStorage.setItem('pole_ags2', '');
+      await AsyncStorage.setItem('pole_ugs2', '');
+      await AsyncStorage.setItem('small_sawlog_ags2', '');
+      await AsyncStorage.setItem('small_sawlog_ugs2', '');
+      await AsyncStorage.setItem('medium_ags2', '');
+      await AsyncStorage.setItem('medium_ugs2', '');
+      await AsyncStorage.setItem('large_sawlog_ags2', '');
+      await AsyncStorage.setItem('large_sawlog_ugs2', '');
 
-      await AsyncStorage.setItem('pole_ags3', null);
-      await AsyncStorage.setItem('pole_ugs3', null);
-      await AsyncStorage.setItem('small_sawlog_ags3', null);
-      await AsyncStorage.setItem('small_sawlog_ugs3', null);
-      await AsyncStorage.setItem('medium_ags3', null);
-      await AsyncStorage.setItem('medium_ugs3', null);
-      await AsyncStorage.setItem('large_sawlog_ags3', null);
-      await AsyncStorage.setItem('large_sawlog_ugs3', null);
+      await AsyncStorage.setItem('pole_ags3', '');
+      await AsyncStorage.setItem('pole_ugs3', '');
+      await AsyncStorage.setItem('small_sawlog_ags3', '');
+      await AsyncStorage.setItem('small_sawlog_ugs3', '');
+      await AsyncStorage.setItem('medium_ags3', '');
+      await AsyncStorage.setItem('medium_ugs3', '');
+      await AsyncStorage.setItem('large_sawlog_ags3', '');
+      await AsyncStorage.setItem('large_sawlog_ugs3', '');
 
 
     } catch (error) {
@@ -301,8 +373,10 @@ export default class SpeciesPole extends Component {
     this._retrieveData();
   }
 
-  nextScreen = (screenName) => {
-    this.props.navigation.navigate(screenName);
+  nextScreen = (screenName,id) => {
+    this.props.navigation.navigate(screenName,{
+      id:id
+    });
   }
   render() {
     return (
@@ -340,71 +414,55 @@ export default class SpeciesPole extends Component {
               placeholder="Enter species"
               defaultValue={this.state.text}
               onChangeText={(text) => this.setState({ text })}
-              onBlur={() => { this.speciesName(0) }}
+              onBlur={() => { this.speciesName() }}
             />
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("Pole",0)}
             ><Text>{this.state.pole_ags}</Text>
             </Button>
 
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("Pole",0,0)}
             ><Text>{this.state.pole_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",0)}
             ><Text>{this.state.small_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",0)}
             ><Text>{this.state.small_sawlog_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",0)}
             ><Text>{this.state.medium_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",0)}
             ><Text>{this.state.medium_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",0)}
             ><Text>{this.state.large_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 0
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",0)}
             ><Text>{this.state.large_sawlog_ugs}</Text>
             </Button>
 
@@ -415,71 +473,55 @@ export default class SpeciesPole extends Component {
               placeholder="Enter species"
               defaultValue={this.state.text1}
               onChangeText={(text1) => this.setState({ text1 })}
-              onBlur={() => { this.speciesName(1) }}
+              onBlur={() => { this.speciesName1() }}
             />
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("Pole",1)}
             ><Text>{this.state.pole_ags}</Text>
             </Button>
 
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("Pole",1)}
             ><Text>{this.state.pole_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",1)}
             ><Text>{this.state.small_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",1)}
             ><Text>{this.state.small_sawlog_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",1)}
             ><Text>{this.state.medium_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",1)}
             ><Text>{this.state.medium_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",1)}
             ><Text>{this.state.large_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 1
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",1)}
             ><Text>{this.state.large_sawlog_ugs}</Text>
             </Button>
 
@@ -490,71 +532,55 @@ export default class SpeciesPole extends Component {
               placeholder="Enter species"
               defaultValue={this.state.text2}
               onChangeText={(text2) => this.setState({ text2 })}
-              onBlur={() => { this.speciesName(2) }}
+              onBlur={() => { this.speciesName2() }}
             />
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("Pole",2)}
             ><Text>{this.state.pole_ags}</Text>
             </Button>
 
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("Pole",2)}
             ><Text>{this.state.pole_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",2)}
             ><Text>{this.state.small_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",2)}
             ><Text>{this.state.small_sawlog_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",2)}
             ><Text>{this.state.medium_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",2)}
             ><Text>{this.state.medium_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",2)}
             ><Text>{this.state.large_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 2
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",2)}
             ><Text>{this.state.large_sawlog_ugs}</Text>
             </Button>
 
@@ -565,71 +591,55 @@ export default class SpeciesPole extends Component {
               placeholder="Enter species"
               defaultValue={this.state.text3}
               onChangeText={(text3) => this.setState({ text3 })}
-              onBlur={() => { this.speciesName(3) }}
+              onBlur={() => { this.speciesName3() }}
             />
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("Pole",3)}
             ><Text>{this.state.pole_ags}</Text>
             </Button>
 
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("Pole", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("Pole",3)}
             ><Text>{this.state.pole_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",3)}
             ><Text>{this.state.small_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("SmallSawlog", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("SmallSawlog",3)}
             ><Text>{this.state.small_sawlog_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",3)}
             ><Text>{this.state.medium_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("MediumSawlog", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("MediumSawlog",3)}
             ><Text>{this.state.medium_ugs}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",3)}
             ><Text>{this.state.large_sawlog_ags}</Text>
             </Button>
             <Button
               containerStyle={styles.buttonAgs}
               style={styles.buttonStyleText1}
-              onPress={() => this.nextScreen("LargeSawlog", {
-                id: 3
-              })}
+              onPress={() => this.nextScreen("LargeSawlog",3)}
             ><Text>{this.state.large_sawlog_ugs}</Text>
             </Button>
 

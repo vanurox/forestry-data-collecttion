@@ -55,8 +55,7 @@ export default class Sweep extends Component {
           return res.json()
         })
         .then((res) => {
-          console.log("=========================================");
-          console.log(res);
+          console.log('hit to get plot number',res);
 
           let num = res.number_of_plots === null ? '0' : res.number_of_plots;
           console.log(`num is ${num}`);
